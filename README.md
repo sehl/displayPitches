@@ -1,7 +1,7 @@
 2015 MLB Pitch Map
 ==================
 
-hosted at [shinyapps.io](
+hosted at [shinyapps.io](https://sehl.shinyapps.io/displayPitches/)
 
 What is it?
 -----------
