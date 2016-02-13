@@ -1,22 +1,22 @@
 # ui.R
 
+source("helpers.R")
+COL_WIDTH=6
+
 shinyUI(fluidPage(
 
-	titlePanel(h1("Strikezone Maps")),
+	titlePanel(h1("Strikezone Map")),
 
 	sidebarLayout(
 		sidebarPanel(
-			checkboxGroupInput(
-				'which_sz', label="Choose one or more Strike Zone Plots",
-				choices=c('Strikezone 1'=1, 'Strikezone 2'=2),
-				selected=c(1,2),
-				inline=T),
-
-			radioButtons('view', label="Viewpoint", ##
-				choices=c("Catcher/Umpire", "Pitcher"), inline = T),
+# 			radioButtons('view', label="Viewpoint", ##
+# 				choices=c("Catcher/Umpire", "Pitcher"), inline = T),
+			checkboxGroupInput('ballsstrikes', label=NULL,
+				choices=c('Balls', 'Strikes'),
+				selected=c('Balls','Strikes'), inline=TRUE),
 
 			selectInput('batter', label="Batter",
-				choices=append(c("All"), sort(levels(pitches$batter)))),
+				choices=append(c("All"), batterkey)),
 
 			radioButtons('stance', label="Stance",
 				choices=c("All"="All", "Left-Handed"="L", "Right-Handed"="R"),
@@ -28,7 +28,7 @@ shinyUI(fluidPage(
 				value=c(minis["b_height"], maxes["b_height"]), step=1.0),
 
 			selectInput('pitcher', label="Pitcher",
-				choices=append(c("All"), sort(levels(pitches$pitcher)))),
+				choices=append(c("All"), pitcherkey)),
 
 			radioButtons('throws', label="Pitcher Arm",
 				choices=c("All"="All", "Left-Handed"="L", "Right-Handed"="R"),
@@ -53,47 +53,8 @@ shinyUI(fluidPage(
 		mainPanel(
 			fluidRow(
 				column(COL_WIDTH,
-					h3("Strike Zone 1"),
-					plotOutput("left_plot")
-				),
-				column(COL_WIDTH,
-					h3("Strike Zone 2"),
-					plotOutput("right_plot")
+					plotOutput("plot")
 				)
 			)
 		)
 )))
-			
-# shinyUI
-# (
-# 	fillPage
-# 	(
-# 		title=h1("Strikezone Maps"),
-# 		fillCol(
-# 			h3("Information"),
-# 			width="20%"
-# 		),
-# 		fillCol(
-# 			fillRow(
-# 				plotOutput("left_plot"),
-# 				height="75%"
-# 			),
-# 			fillRow(
-# 				szCtrlPanel(right=F),
-# 				height="25%"
-# 			),
-# 			width="40%"
-# 		),
-# 		fillCol(
-# 			fillRow(
-# 				plotOutput("right_plot"),
-# 				height="75%"
-# 			),
-# 			fillRow(
-# 				szCtrlPanel(right=T),
-# 				height="25%"
-# 			),
-# 			width="40%"
-# 		)
-# 	)
-# )

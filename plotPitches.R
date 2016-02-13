@@ -33,28 +33,35 @@ selectPitches <- function(data,
 
 }
 
-plotPitches <- function(data, title="Strikezone Plots")
+plotPitches <- function(data, bs, title="Strikezone Plot")
 {
 	balls <- data[c(data$result == 'B'),]
 	strikes <- data[c(data$result == 'S'),]
 
-	plot(balls$x, balls$z, lwd=2, cex=4,
+	plot(c(0,0),c(0,0), col='white',
 		main=title, axes=F,
-		col=rgb(191, 2, 24, maxColorValue=255),
 		xlim=c(plot_min_x, plot_max_x),
 		ylim=c(plot_min_z, plot_max_z),
+		xlab='',
+		ylab='',
 		asp=1
 		)
 	
-	points(balls$x, balls$z, pch=19, cex=3,
-		col=rgb(191, 2, 24, alpha=100, maxColorValue=255))
-	points(strikes$x, strikes$z, lwd=2, cex=4,
-		col=rgb(30, 191, 2, maxColorValue=255))
-	points(strikes$x, strikes$z, pch=19, cex=3,
-		col=rgb(30, 191, 2, alpha=100, maxColorValue=255))
+	if ('Balls' %in% bs) {
+		points(balls$x, balls$z, lwd=2, cex=3, 
+			col=rgb(191, 2, 24, maxColorValue=255))
+		points(balls$x, balls$z, pch=19, cex=2,
+			col=rgb(191, 2, 24, alpha=100, maxColorValue=255))
+	}
+	if ('Strikes' %in% bs) {
+		points(strikes$x, strikes$z, lwd=2, cex=3,
+			col=rgb(30, 191, 2, maxColorValue=255))
+		points(strikes$x, strikes$z, pch=19, cex=2,
+			col=rgb(30, 191, 2, alpha=100, maxColorValue=255))
+	}
 	
-	sz_top <- mean(data$sz_top)
-	sz_bot <- mean(data$sz_bot)
+	sz_top <- mean(data$sz_top, na.rm=TRUE)
+	sz_bot <- mean(data$sz_bot, na.rm=TRUE)
 	
 	half <- 8.5/12 # homeplate = 17" across /2 / 12" per ft
 	x <- c(-half, half, half, -half)
